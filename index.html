@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCSE Mathematics Test - Compound Measures & Rate of Flow</title>
+    <!-- Tailwind CSS for responsive layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- MathJax Configuration and Script -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        /* Guaranteed Single Straight-Line Question Style stretched across full width */
+        .straight-line-question {
+            white-space: nowrap !important;
+            overflow-x: auto !important;
+            display: block !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header & Telemetry Bar -->
+    <header class="bg-slate-900 text-white shadow-md border-b-4 border-teal-500 py-4 px-6 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-teal-500 text-slate-900 p-2 rounded-xl font-bold text-xl flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-gauge-high text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-md md:text-lg font-extrabold tracking-tight">GCSE Mathematics Test</h1>
+                    <p class="text-xs text-slate-400 font-medium">Topic: Compound Measures & Rate of Flow</p>
+                </div>
+            </div>
+            
+            <!-- Live Info Telemetry -->
+            <div id="live-info-bar" class="flex items-center space-x-4 md:space-x-6">
+                <!-- Countdown Timer Display -->
+                <div id="timer-box" class="flex items-center space-x-2 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 transition-all duration-300">
+                    <i id="timer-icon" class="fa-regular fa-clock text-teal-400 text-lg"></i>
+                    <span id="timer-text" class="font-mono font-bold text-sm md:text-lg text-teal-400">15:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+        
+        <!-- Results Diagnostic Suite (Appears at top after final submission) -->
+        <section id="results-screen" class="hidden space-y-6">
+            <!-- Dynamic Diagnostic Report Certificate -->
+            <div class="bg-slate-900 rounded-3xl text-white shadow-xl border border-slate-800 overflow-hidden relative">
+                <div class="absolute -right-12 -top-12 text-slate-800 text-9xl opacity-20 pointer-events-none transform rotate-12">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                
+                <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center relative z-10">
+                    <!-- Circular Scoring Graphic -->
+                    <div class="lg:col-span-4 flex flex-col items-center justify-center text-center">
+                        <div class="relative w-36 h-36 flex items-center justify-center bg-slate-800 rounded-full border-4 border-teal-500 shadow-inner">
+                            <div class="text-center">
+                                <span id="final-marks-display" class="text-3xl md:text-4xl font-black text-teal-400">0/10</span>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Marks Scored</p>
+                                <span id="final-percentage-display" class="text-[10px] font-bold text-white bg-slate-700 px-2 py-0.5 rounded-full mt-1.5 inline-block">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grade Boundaries Visual Outcome -->
+                    <div class="lg:col-span-5 space-y-2 text-center lg:text-left">
+                        <span class="text-[10px] font-extrabold tracking-widest text-teal-400 uppercase">Assessment Completed</span>
+                        <h2 class="text-xl md:text-2xl font-black text-white">Your Certificate of Outcome</h2>
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mt-1">
+                            <div id="grade-badge" class="px-5 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black text-xl rounded-xl shadow-md border border-purple-500 flex items-center justify-center min-w-[100px] tracking-wide">
+                                GRADE U
+                            </div>
+                            <div class="text-xs text-slate-300 text-center sm:text-left">
+                                <p class="text-[10px] text-slate-400">Date: <span id="cert-exam-date">---</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Diagnostics Metrics Grid -->
+                    <div class="lg:col-span-3 bg-slate-800/80 p-4 rounded-xl border border-slate-700/60 space-y-2.5">
+                        <h4 class="text-[10px] font-extrabold text-slate-400 tracking-wider uppercase">Exam Statistics</h4>
+                        <div class="grid grid-cols-2 gap-2 text-[10px] font-bold">
+                            <div class="bg-slate-900/60 p-2 rounded-lg border border-slate-700/30">
+                                <span class="text-slate-400 block mb-0.5">Correct Qs</span>
+                                <span id="stat-correct-count" class="font-extrabold text-teal-400 text-xs">0 / 10</span>
+                            </div>
+                            <div class="bg-slate-900/60 p-2 rounded-lg border border-slate-700/30">
+                                <span class="text-slate-400 block mb-0.5">Time Taken</span>
+                                <span id="stat-time-taken" class="font-extrabold text-amber-400 text-xs">0m 0s</span>
+                            </div>
+                            <div class="bg-slate-900/60 p-2 rounded-lg border border-slate-700/30">
+                                <span class="text-slate-400 block mb-0.5">Non-Calculator</span>
+                                <span id="stat-sub-noncalc" class="font-extrabold text-white text-xs">0%</span>
+                            </div>
+                            <div class="bg-slate-900/60 p-2 rounded-lg border border-slate-700/30">
+                                <span class="text-slate-400 block mb-0.5">Calculator</span>
+                                <span id="stat-sub-calc" class="font-extrabold text-white text-xs">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Diagnostic Written Report -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-slate-50 px-5 py-4 border-b border-slate-200 flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <span class="text-slate-500"><i class="fa-solid fa-pen-nib text-sm"></i></span>
+                        <h3 class="font-black text-slate-800 uppercase tracking-tight text-xs">GCSE Examiner's Diagnostic Analysis</h3>
+                    </div>
+                    <span class="text-[9px] bg-slate-200 text-slate-600 px-2.5 py-1 rounded font-extrabold uppercase">Feedback Report</span>
+                </div>
+                
+                <div class="p-6 space-y-6">
+                    <div class="border-l-4 border-teal-500 pl-4 py-0.5">
+                        <h4 class="font-extrabold text-slate-800 text-sm">Examiner's Assessment Summary</h4>
+                        <p id="examiner-summary-text" class="text-slate-600 text-xs leading-relaxed mt-1">
+                            <!-- Dynamic text outcome -->
+                        </p>
+                    </div>
+
+                    <!-- Strengths and Weaknesses Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-emerald-50 rounded-2xl p-4 border border-emerald-100">
+                            <h4 class="font-black text-emerald-800 text-xs flex items-center gap-2 uppercase tracking-wide">
+                                <span class="bg-emerald-100 text-emerald-600 p-1 rounded-md text-[10px]"><i class="fa-solid fa-circle-check"></i></span>
+                                Core Strengths
+                            </h4>
+                            <ul id="examiner-strengths-list" class="mt-3 text-xs space-y-2 text-slate-700 list-disc pl-4 font-medium">
+                                <!-- Dynamic strengths list -->
+                            </ul>
+                        </div>
+
+                        <div class="bg-amber-50 rounded-2xl p-4 border border-amber-100">
+                            <h4 class="font-black text-amber-800 text-xs flex items-center gap-2 uppercase tracking-wide">
+                                <span class="bg-amber-100 text-amber-600 p-1 rounded-md text-[10px]"><i class="fa-solid fa-circle-exclamation"></i></span>
+                                Targets for Improvement
+                            </h4>
+                            <ul id="examiner-improvements-list" class="mt-3 text-xs space-y-2 text-slate-700 list-disc pl-4 font-medium">
+                                <!-- Dynamic improvement list -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Retake Exam Button Area -->
+                    <div class="bg-slate-900 text-white rounded-2xl p-4 border border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3">
+                        <div>
+                            <h4 class="font-bold text-xs text-teal-400">Need to improve your grade?</h4>
+                            <p class="text-[10px] text-slate-300 mt-0.5">You can immediately restart this GCSE assessment to correct misconceptions and secure a Grade 9.</p>
+                        </div>
+                        <button id="retake-test-btn" class="bg-teal-500 hover:bg-teal-600 text-slate-900 font-extrabold text-xs px-4 py-2.5 rounded-xl transition duration-200 whitespace-nowrap">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> Restart Examination
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Workspace Two-Column Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- LEFT COLUMN: Syllabus, Guidelines & Live Progress Map (Sticky Sidebar) -->
+            <aside class="lg:col-span-4 space-y-6 flex flex-col lg:sticky lg:top-24 h-fit">
+                
+                <!-- Exam Navigator Card -->
+                <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <span class="text-xs font-black text-slate-700 uppercase tracking-wider">Scroll Navigation Map</span>
+                        <span id="answered-badge" class="bg-indigo-50 text-indigo-700 text-xs px-2.5 py-1 rounded-full font-extrabold">0 / 10 Done</span>
+                    </div>
+
+                    <!-- Progress bar meter -->
+                    <div class="w-full bg-slate-100 rounded-full h-2">
+                        <div id="exam-progress-bar" class="bg-teal-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+
+                    <!-- Question Grid Map -->
+                    <div class="grid grid-cols-5 gap-2" id="navigator-grid">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+
+                    <!-- Navigator Legend -->
+                    <div class="pt-2 border-t border-slate-100 flex flex-wrap gap-y-2 justify-between text-[10px] text-slate-500 font-bold">
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-slate-100 border border-slate-300 inline-block"></span> Unseen</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-amber-400 inline-block"></span> Flagged</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-indigo-600 inline-block"></span> Complete</span>
+                    </div>
+                </section>
+
+                <!-- Grade Boundaries Info Box (Toggleable) -->
+                <section class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+                    <button id="toggle-boundaries-btn" class="w-full bg-slate-50 px-4 py-3 text-left font-black text-slate-700 flex justify-between items-center hover:bg-slate-100 transition">
+                        <span class="text-xs uppercase tracking-wider"><i class="fa-solid fa-circle-info mr-2 text-teal-600"></i>Official Grade Boundaries</span>
+                        <i id="boundaries-icon" class="fa-solid fa-chevron-down text-slate-500 text-xs transition-transform duration-200"></i>
+                    </button>
+                    <div id="boundaries-table" class="hidden p-4 bg-slate-50 grid grid-cols-5 gap-1.5 text-center text-[10px] font-bold border-t border-slate-100">
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">&lt;15%<br><span class="text-xs font-black text-red-600">U</span></div>
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">15-20%<br><span class="text-xs font-black text-orange-600">1</span></div>
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">20-30%<br><span class="text-xs font-black text-amber-600">2</span></div>
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">30-40%<br><span class="text-xs font-black text-yellow-600">3</span></div>
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">40-50%<br><span class="text-xs font-black text-emerald-500">4</span></div>
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">50-55%<br><span class="text-xs font-black text-emerald-600">5</span></div>
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">55-65%<br><span class="text-xs font-black text-teal-600">6</span></div>
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">65-75%<br><span class="text-xs font-black text-blue-600">7</span></div>
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">75-80%<br><span class="text-xs font-black text-indigo-600">8</span></div>
+                        <div class="p-1.5 bg-white border border-slate-200 rounded text-slate-800">&gt;80%<br><span class="text-xs font-black text-purple-700">9</span></div>
+                    </div>
+                </section>
+
+                <!-- Revision Guidelines & Strategy Tips -->
+                <section class="bg-slate-900 text-slate-300 rounded-2xl p-5 border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h4 class="font-extrabold text-white text-xs uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-teal-400"></i>
+                            Compound Measures Formula Reference
+                        </h4>
+                        <span class="text-[9px] bg-teal-500/20 text-teal-300 font-extrabold px-2 py-0.5 rounded-md border border-teal-500/30">GCSE Standard</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <!-- 1. Speed, Distance, Time -->
+                        <div class="bg-slate-800/90 rounded-xl p-3 border border-slate-700/80 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-white text-xs flex items-center gap-1.5">
+                                    <i class="fa-solid fa-gauge-high text-teal-400 text-xs"></i> 1. Speed (S, D, T)
+                                </span>
+                                <span class="text-[9px] font-mono bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-700">S = D / T</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-1 text-center text-[10px] bg-slate-900/80 p-1.5 rounded-lg border border-slate-800 text-teal-300 font-semibold">
+                                <div>\(S = \frac{D}{T}\)</div>
+                                <div>\(D = S \times T\)</div>
+                                <div>\(T = \frac{D}{S}\)</div>
+                            </div>
+                            <div class="text-[10px] text-slate-400 space-y-0.5 leading-tight">
+                                <p><strong class="text-slate-300">Time conversion:</strong> \(36\text{ mins} = \frac{36}{60} = 0.6\text{ hrs}\)</p>
+                                <p><strong class="text-slate-300">Unit multiplier:</strong> \(1\text{ m/s} = 3.6\text{ km/h}\)</p>
+                            </div>
+                        </div>
+
+                        <!-- 2. Density, Mass, Volume -->
+                        <div class="bg-slate-800/90 rounded-xl p-3 border border-slate-700/80 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-white text-xs flex items-center gap-1.5">
+                                    <i class="fa-solid fa-cube text-indigo-400 text-xs"></i> 2. Density (D, M, V)
+                                </span>
+                                <span class="text-[9px] font-mono bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-700">D = M / V</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-1 text-center text-[10px] bg-slate-900/80 p-1.5 rounded-lg border border-slate-800 text-indigo-300 font-semibold">
+                                <div>\(D = \frac{M}{V}\)</div>
+                                <div>\(M = D \times V\)</div>
+                                <div>\(V = \frac{M}{D}\)</div>
+                            </div>
+                            <div class="text-[10px] text-slate-400 space-y-0.5 leading-tight">
+                                <p><strong class="text-slate-300">Metric conversion:</strong> \(1\text{ g/cm}^3 = 1000\text{ kg/m}^3\)</p>
+                                <p><strong class="text-slate-300">Composite Density:</strong> \(\frac{\text{Total Mass}}{\text{Total Volume}}\)</p>
+                            </div>
+                        </div>
+
+                        <!-- 3. Pressure, Force, Area -->
+                        <div class="bg-slate-800/90 rounded-xl p-3 border border-slate-700/80 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-white text-xs flex items-center gap-1.5">
+                                    <i class="fa-solid fa-compress text-amber-400 text-xs"></i> 3. Pressure (P, F, A)
+                                </span>
+                                <span class="text-[9px] font-mono bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-700">P = F / A</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-1 text-center text-[10px] bg-slate-900/80 p-1.5 rounded-lg border border-slate-800 text-amber-300 font-semibold">
+                                <div>\(P = \frac{F}{A}\)</div>
+                                <div>\(F = P \times A\)</div>
+                                <div>\(A = \frac{F}{P}\)</div>
+                            </div>
+                            <div class="text-[10px] text-slate-400 space-y-0.5 leading-tight">
+                                <p><strong class="text-slate-300">Force calculation:</strong> \(\text{Weight } (F) = \text{mass } (m) \times g\)</p>
+                                <p><strong class="text-slate-300">Standard unit:</strong> \(1\text{ N/m}^2 = 1\text{ Pascal (Pa)}\)</p>
+                            </div>
+                        </div>
+
+                        <!-- 4. Rate of Flow -->
+                        <div class="bg-slate-800/90 rounded-xl p-3 border border-slate-700/80 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-white text-xs flex items-center gap-1.5">
+                                    <i class="fa-solid fa-faucet-drip text-cyan-400 text-xs"></i> 4. Rate of Flow (R, V, T)
+                                </span>
+                                <span class="text-[9px] font-mono bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-700">R = V / T</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-1 text-center text-[10px] bg-slate-900/80 p-1.5 rounded-lg border border-slate-800 text-cyan-300 font-semibold">
+                                <div>\(R = \frac{V}{T}\)</div>
+                                <div>\(V = R \times T\)</div>
+                                <div>\(T = \frac{V}{R}\)</div>
+                            </div>
+                            <div class="text-[10px] text-slate-400 space-y-0.5 leading-tight">
+                                <p><strong class="text-slate-300">Volume unit:</strong> \(1\text{ m}^3 = 1000\text{ litres} = 1,000,000\text{ cm}^3\)</p>
+                                <p><strong class="text-slate-300">Pipe flow:</strong> \(\text{Rate} = \text{Area } (\pi r^2) \times \text{Velocity}\)</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+
+            <!-- RIGHT COLUMN: Active Test Workspace displaying all questions on one page -->
+            <article class="lg:col-span-8 space-y-6">
+                
+                <!-- Dynamic Questions Container -->
+                <div id="questions-list-container" class="space-y-6">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+
+                <!-- Test Finalization Area -->
+                <div id="submit-action-banner" class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-100 p-6 rounded-2xl border border-slate-200">
+                    <div>
+                        <h4 class="font-black text-slate-800 text-sm">Finished checking all questions?</h4>
+                        <p class="text-[11px] text-slate-500 mt-0.5">Double check flagged or skipped questions using the map on the left before submitting.</p>
+                    </div>
+                    <button id="submit-exam-btn" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-md shadow-emerald-600/15">
+                        <i class="fa-solid fa-paper-plane"></i> Finalize Paper & Grade
+                    </button>
+                </div>
+            </article>
+
+        </div>
+
+    </main>
+
+    <!-- Unified Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-center text-[10px]">
+        <div class="max-w-7xl mx-auto px-4 space-y-2 font-medium">
+            <p>(c) STEMATRIX EDUCATION</p>
+        </div>
+    </footer>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="confirmation-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl p-5 border border-slate-200 transform transition-all duration-300 ease-out space-y-4" id="modal-content">
+            <div class="flex items-center space-x-3 text-amber-500">
+                <span class="text-2xl"><i class="fa-solid fa-circle-exclamation"></i></span>
+                <h3 id="modal-title" class="text-sm font-black text-slate-900">Confirm Submission</h3>
+            </div>
+            <p id="modal-message" class="text-xs text-slate-600 leading-relaxed">
+                Are you sure you want to finalize your exam? Your responses will be marked immediately according to official GCSE grade boundaries.
+            </p>
+            <div class="flex justify-end space-x-2 pt-1">
+                <button id="modal-cancel-btn" class="px-3 py-2 text-slate-500 font-bold hover:bg-slate-100 rounded-lg text-xs transition">Cancel</button>
+                <button id="modal-confirm-btn" class="px-4 py-2 bg-emerald-600 text-white font-extrabold hover:bg-emerald-700 rounded-lg text-xs transition shadow-md shadow-emerald-600/10">Submit Paper</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // GCSE Maths Compound Measures & Rate of Flow Questions Database
+        const questions = [
+            {
+                id: 1,
+                topic: "Average Speed with Time Unit Conversion",
+                calculator: false,
+                tag: "Non-Calculator",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>A high-speed train travels a distance of 45 km in exactly 36 minutes. Calculate the average speed of the train in km/h.</span>",
+                options: [
+                    { key: "A", val: "65 km/h" },
+                    { key: "B", val: "72 km/h" },
+                    { key: "C", val: "75 km/h" },
+                    { key: "D", val: "80 km/h" }
+                ],
+                correct: "C",
+                tip: "Convert 36 minutes into hours: \\(36 \\text{ mins} = \\frac{36}{60} = \\frac{3}{5} = 0.6 \\text{ hours}\\).<br>Use \\(\\text{Speed} = \\frac{\\text{Distance}}{\\text{Time}} = \\frac{45}{0.6} = \\frac{450}{6} = 75 \\text{ km/h}\\)."
+            },
+            {
+                id: 2,
+                topic: "Density of Composite Alloy Mixture",
+                calculator: false,
+                tag: "Non-Calculator",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>Metal A has mass 120 g and volume 30 cm³. Metal B has mass 180 g and volume 90 cm³. They are melted together to form Alloy C. Calculate the density of Alloy C in g/cm³.</span>",
+                options: [
+                    { key: "A", val: "2.8 g/cm³" },
+                    { key: "B", val: "3.0 g/cm³" },
+                    { key: "C", val: "2.2 g/cm³" },
+                    { key: "D", val: "2.5 g/cm³" }
+                ],
+                correct: "D",
+                tip: "Total Mass = \\(120 + 180 = 300 \\text{ g}\\).<br>Total Volume = \\(30 + 90 = 120 \\text{ cm}^3\\).<br>Overall Density = \\(\\frac{\\text{Total Mass}}{\\text{Total Volume}} = \\frac{300}{120} = \\frac{5}{2} = 2.5 \\text{ g/cm}^3\\)."
+            },
+            {
+                id: 3,
+                topic: "Pressure, Force and Area Calculation",
+                calculator: false,
+                tag: "Non-Calculator",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>A wooden crate of mass 60 kg rests on horizontal ground with a square base of side length 0.5 m. Taking gravity g = 10 N/kg, calculate the pressure exerted by the crate on the ground in N/m².</span>",
+                options: [
+                    { key: "A", val: "2400 N/m²" },
+                    { key: "B", val: "1200 N/m²" },
+                    { key: "C", val: "1500 N/m²" },
+                    { key: "D", val: "3000 N/m²" }
+                ],
+                correct: "A",
+                tip: "Force (Weight) = \\(60 \\text{ kg} \\times 10 \\text{ N/kg} = 600 \\text{ N}\\).<br>Area of square base = \\(0.5 \\text{ m} \\times 0.5 \\text{ m} = 0.25 \\text{ m}^2\\).<br>Pressure = \\(\\frac{\\text{Force}}{\\text{Area}} = \\frac{600}{0.25} = 600 \\times 4 = 2400 \\text{ N/m}^2\\)."
+            },
+            {
+                id: 4,
+                topic: "Rate of Flow and Container Volume",
+                calculator: false,
+                tag: "Non-Calculator",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>Water flows from a tap into a tank at a constant rate of 12 litres per minute. The tank has a total volume of 0.54 m³. Given 1 m³ = 1000 litres, how many minutes does it take to fill the tank completely?</span>",
+                options: [
+                    { key: "A", val: "40 minutes" },
+                    { key: "B", val: "45 minutes" },
+                    { key: "C", val: "36 minutes" },
+                    { key: "D", val: "50 minutes" }
+                ],
+                correct: "B",
+                tip: "Volume of tank in litres = \\(0.54 \\times 1000 = 540 \\text{ litres}\\).<br>Time taken = \\(\\frac{\\text{Volume}}{\\text{Flow Rate}} = \\frac{540}{12} = 45 \\text{ minutes}\\)."
+            },
+            {
+                id: 5,
+                topic: "Compound Unit Conversion (m/s to km/h)",
+                calculator: false,
+                tag: "Non-Calculator",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>A sprinter completes a race running at an average velocity of 8 m/s. Express this speed in kilometres per hour (km/h).</span>",
+                options: [
+                    { key: "A", val: "24.0 km/h" },
+                    { key: "B", val: "32.0 km/h" },
+                    { key: "C", val: "25.2 km/h" },
+                    { key: "D", val: "28.8 km/h" }
+                ],
+                correct: "D",
+                tip: "\\(8 \\text{ m/s} = 8 \\times 3600 \\text{ m/hour} = 28,800 \\text{ m/hour}\\).<br>Convert metres to kilometres: \\(\\frac{28,800}{1000} = 28.8 \\text{ km/h}\\)."
+            },
+            {
+                id: 6,
+                topic: "Multi-Stage Journey Average Speed Including Rest Stoppage",
+                calculator: true,
+                tag: "Calculator Allowed",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>A courier drives 140 km at 70 km/h, stops for 15 minutes, and then drives 105 km at 90 km/h. Calculate the average speed for the entire journey (including the stop), rounded to 1 decimal place.</span>",
+                options: [
+                    { key: "A", val: "71.7 km/h" },
+                    { key: "B", val: "75.0 km/h" },
+                    { key: "C", val: "68.5 km/h" },
+                    { key: "D", val: "80.0 km/h" }
+                ],
+                correct: "A",
+                tip: "Time 1 = \\(\\frac{140}{70} = 2 \\text{ hours}\\). Stop time = \\(15 \\text{ mins} = 0.25 \\text{ hours}\\).<br>Time 2 = \\(\\frac{105}{90} = 1.1667 \\text{ hours}\\) (\\(\\frac{7}{6}\\) hrs).<br>Total Distance = \\(140 + 105 = 245 \\text{ km}\\). Total Time = \\(2 + 0.25 + 1.1667 = 3.4167 \\text{ hours}\\) (\\(\\frac{41}{12}\\) hrs).<br>Average Speed = \\(\\frac{245}{3.4167} \\approx 71.7 \\text{ km/h}\\)."
+            },
+            {
+                id: 7,
+                topic: "Density Metric Unit Conversion (g/cm³ to kg/m³)",
+                calculator: true,
+                tag: "Calculator Allowed",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>The density of liquid mercury is 13.6 g/cm³. What is this density expressed in kilograms per cubic metre (kg/m³)?</span>",
+                options: [
+                    { key: "A", val: "1,360 kg/m³" },
+                    { key: "B", val: "13,600 kg/m³" },
+                    { key: "C", val: "136,000 kg/m³" },
+                    { key: "D", val: "136 kg/m³" }
+                ],
+                correct: "B",
+                tip: "\\(1 \\text{ g} = 0.001 \\text{ kg}\\) and \\(1 \\text{ cm}^3 = 0.000001 \\text{ m}^3\\).<br>Thus \\(1 \\text{ g/cm}^3 = \\frac{0.001 \\text{ kg}}{0.000001 \\text{ m}^3} = 1000 \\text{ kg/m}^3\\).<br>\\(13.6 \\text{ g/cm}^3 \\times 1000 = 13,600 \\text{ kg/m}^3\\)."
+            },
+            {
+                id: 8,
+                topic: "Pipe Volumetric Rate of Flow with Cross-Sectional Area",
+                calculator: true,
+                tag: "Calculator Allowed",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>Water flows through a circular pipe of internal radius 3 cm at a constant velocity of 0.4 m/s. Calculate the rate of flow of water in litres per minute, rounded to 1 decimal place.</span>",
+                options: [
+                    { key: "A", val: "54.2 L/min" },
+                    { key: "B", val: "61.1 L/min" },
+                    { key: "C", val: "67.9 L/min" },
+                    { key: "D", val: "72.5 L/min" }
+                ],
+                correct: "C",
+                tip: "Radius = \\(0.03 \\text{ m}\\). Area = \\(\\pi \\times (0.03)^2 = 0.0009\\pi \\text{ m}^2\\).<br>Speed = \\(0.4 \\text{ m/s} = 0.4 \\times 60 = 24 \\text{ m/min}\\).<br>Flow rate = \\(0.0009\\pi \\times 24 = 0.0216\\pi \\text{ m}^3/\\text{min} \\approx 0.067858 \\text{ m}^3/\\text{min}\\).<br>Convert to litres (\\(\\times 1000\\)): \\(0.067858 \\times 1000 \\approx 67.9 \\text{ litres/min}\\)."
+            },
+            {
+                id: 9,
+                topic: "Pressure Alteration with Surface Area Modification",
+                calculator: true,
+                tag: "Calculator Allowed",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>A steel block exerts a force of 1800 N on a flat platform, creating a pressure of 15,000 N/m². If the contact surface area is reduced by 25% while the force remains constant, calculate the new pressure in N/m².</span>",
+                options: [
+                    { key: "A", val: "18,750 N/m²" },
+                    { key: "B", val: "16,000 N/m²" },
+                    { key: "C", val: "22,500 N/m²" },
+                    { key: "D", val: "20,000 N/m²" }
+                ],
+                correct: "D",
+                tip: "Initial Area = \\(\\frac{\\text{Force}}{\\text{Pressure}} = \\frac{1800}{15000} = 0.12 \\text{ m}^2\\).<br>Reduced Area = \\(0.12 \\times (1 - 0.25) = 0.12 \\times 0.75 = 0.09 \\text{ m}^2\\).<br>New Pressure = \\(\\frac{1800}{0.09} = 20,000 \\text{ N/m}^2\\)."
+            },
+            {
+                id: 10,
+                topic: "Differential Fill and Drain Rate of Flow",
+                calculator: true,
+                tag: "Calculator Allowed",
+                marks: 1,
+                text: "<span class='straight-line-question bg-teal-50/80 border border-teal-200/80 p-3.5 px-4 rounded-xl text-teal-900 font-semibold text-sm md:text-base shadow-xs'>An empty 450 m³ reservoir is filled by Pipe A at 25 m³/hour. After 4 hours, Drain B opens, discharging water at 10 m³/hour while Pipe A continues filling. How long does it take in total from the start to fill the reservoir?</span>",
+                options: [
+                    { key: "A", val: "27 hours 20 minutes" },
+                    { key: "B", val: "25 hours" },
+                    { key: "C", val: "28 hours 40 minutes" },
+                    { key: "D", val: "30 hours" }
+                ],
+                correct: "A",
+                tip: "First 4 hours volume filled = \\(4 \\times 25 = 100 \\text{ m}^3\\). Remaining volume = \\(450 - 100 = 350 \\text{ m}^3\\).<br>Net fill rate when both open = \\(25 - 10 = 15 \\text{ m}^3/\\text{hour}\\).<br>Time for remaining volume = \\(\\frac{350}{15} = 23.333... \\text{ hours} = 23 \\text{ hours } 20 \\text{ mins}\\).<br>Total time = \\(4 + 23 \\text{ hours } 20 \\text{ mins} = 27 \\text{ hours } 20 \\text{ minutes}\\)."
+            }
+        ];
+        
+        // State Variables
+        let timerInterval = null;
+        let timeRemaining = 900; // 15 minutes (900 seconds)
+        let hasSubmitted = false;
+        let answers = Array(questions.length).fill(null);
+        let flaggedQuestions = Array(questions.length).fill(false);
+        let examStartTime = null;
+        let examEndTime = null;
+
+        // DOM Element Bindings
+        const timerBox = document.getElementById("timer-box");
+        const timerText = document.getElementById("timer-text");
+        const timerIcon = document.getElementById("timer-icon");
+        const answeredBadge = document.getElementById("answered-badge");
+        const examProgressBar = document.getElementById("exam-progress-bar");
+        const navigatorGrid = document.getElementById("navigator-grid");
+        const toggleBoundariesBtn = document.getElementById("toggle-boundaries-btn");
+        const boundariesTable = document.getElementById("boundaries-table");
+        const boundariesIcon = document.getElementById("boundaries-icon");
+        const questionsListContainer = document.getElementById("questions-list-container");
+        const submitActionBanner = document.getElementById("submit-action-banner");
+        const submitExamBtn = document.getElementById("submit-exam-btn");
+        const resultsScreen = document.getElementById("results-screen");
+        const retakeTestBtn = document.getElementById("retake-test-btn");
+        const confirmationModal = document.getElementById("confirmation-modal");
+        const modalCancelBtn = document.getElementById("modal-cancel-btn");
+        const modalConfirmBtn = document.getElementById("modal-confirm-btn");
+
+        // Helper: Safe MathJax Typeset Trigger
+        function triggerMathTypeset() {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise().catch((err) => console.log("MathJax error:", err));
+            }
+        }
+
+        // Map mark percentage to official grade boundaries requested
+        function mapPercentageToGrade(pct) {
+            if (pct < 15) return { grade: "U", badgeClass: "from-slate-700 to-slate-800 border-slate-600" };
+            if (pct < 20) return { grade: "1", badgeClass: "from-red-600 to-rose-700 border-red-500" };
+            if (pct < 30) return { grade: "2", badgeClass: "from-orange-600 to-amber-700 border-orange-500" };
+            if (pct < 40) return { grade: "3", badgeClass: "from-amber-600 to-yellow-600 border-amber-500" };
+            if (pct < 50) return { grade: "4", badgeClass: "from-emerald-600 to-teal-600 border-emerald-500" };
+            if (pct < 55) return { grade: "5", badgeClass: "from-emerald-700 to-green-700 border-emerald-600" };
+            if (pct < 65) return { grade: "6", badgeClass: "from-teal-600 to-cyan-700 border-teal-500" };
+            if (pct < 75) return { grade: "7", badgeClass: "from-blue-600 to-indigo-700 border-blue-500" };
+            if (pct < 80) return { grade: "8", badgeClass: "from-indigo-600 to-violet-700 border-indigo-500" };
+            return { grade: "9", badgeClass: "from-purple-600 to-fuchsia-700 border-purple-500" };
+        }
+
+        function startCountdown() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                if (timeRemaining <= 0) {
+                    timeRemaining = 0;
+                    clearInterval(timerInterval);
+                    calculateGradesAndDisplay();
+                }
+
+                const mins = Math.floor(timeRemaining / 60);
+                const secs = timeRemaining % 60;
+                timerText.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+                if (timeRemaining <= 60 && !hasSubmitted) {
+                    timerBox.className = "flex items-center space-x-2 bg-red-900/80 border border-red-500 px-4 py-2 rounded-xl transition-all duration-300 animate-pulse";
+                    timerText.className = "font-mono font-bold text-sm md:text-lg text-red-200";
+                    timerIcon.className = "fa-regular fa-clock text-red-300 text-sm md:text-lg";
+                }
+            }, 1000);
+        }
+
+        function initializeNavigator() {
+            navigatorGrid.innerHTML = "";
+            questions.forEach((q, idx) => {
+                const btn = document.createElement("button");
+                btn.id = `nav-btn-${idx}`;
+                btn.type = "button";
+                btn.onclick = () => scrollToQuestion(idx);
+                btn.className = "w-full py-2 rounded-xl font-extrabold text-xs transition-all border flex flex-col items-center justify-center bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200";
+                btn.innerHTML = `<span>Q${q.id}</span>`;
+                navigatorGrid.appendChild(btn);
+            });
+            updateNavigatorStyles();
+        }
+
+        function scrollToQuestion(questionIdx) {
+            const card = document.getElementById(`question-card-${questionIdx}`);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function renderAllQuestions() {
+            questionsListContainer.innerHTML = "";
+            questions.forEach((q, idx) => {
+                const card = document.createElement("div");
+                card.id = `question-card-${idx}`;
+                card.className = "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-300";
+
+                const calcBadge = q.calculator 
+                    ? `<span class="bg-blue-50 text-blue-700 border border-blue-200 font-extrabold text-[10px] px-2.5 py-1 rounded-lg flex items-center gap-1"><i class="fa-solid fa-calculator text-[10px]"></i> Calculator</span>`
+                    : `<span class="bg-amber-50 text-amber-700 border border-amber-200 font-extrabold text-[10px] px-2.5 py-1 rounded-lg flex items-center gap-1"><i class="fa-solid fa-ban text-[10px]"></i> Non-Calculator</span>`;
+
+                card.innerHTML = `
+                    <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex flex-wrap justify-between items-center gap-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-slate-800 text-white font-black text-xs px-2.5 py-1 rounded-lg">QUESTION ${q.id} OF 10</span>
+                            ${calcBadge}
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-1 rounded-lg">1 Mark Total</span>
+                            <button type="button" onclick="toggleFlag(${idx})" class="text-slate-400 hover:text-amber-500 transition-colors flex items-center gap-1.5 text-xs font-bold">
+                                <i class="${flaggedQuestions[idx] ? 'fa-solid text-amber-500' : 'fa-regular'} fa-flag text-xs" id="flag-icon-${idx}"></i> 
+                                <span id="flag-text-${idx}" class="${flaggedQuestions[idx] ? 'text-amber-500' : ''}">${flaggedQuestions[idx] ? 'Flagged' : 'Flag Question'}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-6 md:p-8 space-y-6">
+                        <!-- Full-width single straight-line question box -->
+                        <div class="w-full custom-scrollbar overflow-x-auto">
+                            ${q.text}
+                        </div>
+
+                        <!-- Multiple Choice Options Container -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="options-container-${idx}">
+                            <!-- Populated dynamically -->
+                        </div>
+
+                        <!-- Worked Solution Box (Visible after submission) -->
+                        <div id="worked-solution-${idx}" class="hidden bg-indigo-50/50 rounded-xl p-4 border border-indigo-100/60 flex gap-2.5 text-xs text-slate-700 font-medium">
+                            <span class="text-indigo-600 text-lg"><i class="fa-solid fa-graduation-cap"></i></span>
+                            <div>
+                                <h5 class="font-bold text-indigo-900 uppercase tracking-wide mb-0.5 text-[10px]">Examiner Strategy & Worked Solution:</h5>
+                                <p class="leading-relaxed">${q.tip}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                questionsListContainer.appendChild(card);
+                renderQuestionOptions(idx);
+            });
+
+            updateGlobalProgress();
+            triggerMathTypeset();
+        }
+
+        function renderQuestionOptions(questionIdx) {
+            const container = document.getElementById(`options-container-${questionIdx}`);
+            if (!container) return;
+            container.innerHTML = "";
+
+            const q = questions[questionIdx];
+            const selectedKey = answers[questionIdx];
+
+            q.options.forEach(opt => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.disabled = hasSubmitted;
+
+                let baseClasses = "w-full p-4 rounded-xl border text-left font-medium transition-all flex items-center justify-between group ";
+
+                if (!hasSubmitted) {
+                    if (selectedKey === opt.key) {
+                        baseClasses += "bg-teal-50 border-teal-500 ring-2 ring-teal-500/20 text-teal-900 font-bold";
+                    } else {
+                        baseClasses += "bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50";
+                    }
+                } else {
+                    if (opt.key === q.correct) {
+                        baseClasses += "bg-emerald-50 border-emerald-500 text-emerald-900 font-bold ring-2 ring-emerald-500/20";
+                    } else if (selectedKey === opt.key && selectedKey !== q.correct) {
+                        baseClasses += "bg-rose-50 border-rose-500 text-rose-900 font-bold";
+                    } else {
+                        baseClasses += "bg-slate-50 border-slate-200 text-slate-400 opacity-60";
+                    }
+                }
+
+                btn.className = baseClasses;
+                btn.onclick = () => selectOption(questionIdx, opt.key);
+
+                let badgeClass = "w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 ";
+                if (!hasSubmitted) {
+                    badgeClass += selectedKey === opt.key ? "bg-teal-500 text-white" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200";
+                } else {
+                    if (opt.key === q.correct) {
+                        badgeClass += "bg-emerald-500 text-white";
+                    } else if (selectedKey === opt.key && selectedKey !== q.correct) {
+                        badgeClass += "bg-rose-500 text-white";
+                    } else {
+                        badgeClass += "bg-slate-200 text-slate-400";
+                    }
+                }
+
+                btn.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="${badgeClass}">${opt.key}</span>
+                        <span class="text-sm md:text-base">${opt.val}</span>
+                    </div>
+                    ${hasSubmitted && opt.key === q.correct ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : ''}
+                    ${hasSubmitted && selectedKey === opt.key && selectedKey !== q.correct ? '<i class="fa-solid fa-circle-xmark text-rose-500 text-lg"></i>' : ''}
+                `;
+
+                container.appendChild(btn);
+            });
+        }
+
+        function selectOption(questionIdx, key) {
+            if (hasSubmitted) return;
+            answers[questionIdx] = key;
+            renderQuestionOptions(questionIdx);
+            updateNavigatorStyles();
+            updateGlobalProgress();
+            triggerMathTypeset();
+        }
+
+        function toggleFlag(questionIdx) {
+            flaggedQuestions[questionIdx] = !flaggedQuestions[questionIdx];
+            
+            const flagIcon = document.getElementById(`flag-icon-${questionIdx}`);
+            const flagText = document.getElementById(`flag-text-${questionIdx}`);
+
+            if (flaggedQuestions[questionIdx]) {
+                flagIcon.className = "fa-solid fa-flag text-amber-500 text-xs";
+                flagText.className = "text-amber-500";
+                flagText.textContent = "Flagged";
+            } else {
+                flagIcon.className = "fa-regular fa-flag text-xs";
+                flagText.className = "";
+                flagText.textContent = "Flag Question";
+            }
+
+            updateNavigatorStyles();
+        }
+
+        function updateGlobalProgress() {
+            const answeredCount = answers.filter(a => a !== null).length;
+            answeredBadge.textContent = `${answeredCount} / ${questions.length} Done`;
+            const pct = (answeredCount / questions.length) * 100;
+            examProgressBar.style.width = `${pct}%`;
+        }
+
+        function updateNavigatorStyles() {
+            if (hasSubmitted) return;
+            questions.forEach((q, idx) => {
+                const btn = document.getElementById(`nav-btn-${idx}`);
+                if (!btn) return;
+
+                const isAnswered = answers[idx] !== null;
+                const isFlagged = flaggedQuestions[idx];
+
+                let btnClass = "w-full py-2 rounded-xl font-extrabold text-xs transition-all border flex flex-col items-center justify-center ";
+
+                if (isFlagged) {
+                    btnClass += "bg-amber-400 border-amber-500 text-slate-900";
+                } else if (isAnswered) {
+                    btnClass += "bg-indigo-600 border-indigo-700 text-white";
+                } else {
+                    btnClass += "bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200";
+                }
+
+                btn.className = btnClass;
+            });
+        }
+
+        function calculateGradesAndDisplay() {
+            clearInterval(timerInterval);
+            examEndTime = new Date();
+            hasSubmitted = true;
+            
+            let totalMarksEarned = 0;
+            let questionsCorrectCount = 0;
+
+            const subtopics = {
+                noncalc: { earned: 0, max: 0 },
+                calc: { earned: 0, max: 0 }
+            };
+
+            questions.forEach((q, idx) => {
+                const ans = answers[idx];
+                const isCorrect = ans === q.correct;
+
+                if (isCorrect) {
+                    totalMarksEarned += 1;
+                    questionsCorrectCount++;
+                }
+
+                if (!q.calculator) {
+                    if (isCorrect) subtopics.noncalc.earned += 1;
+                    subtopics.noncalc.max += 1;
+                } else {
+                    if (isCorrect) subtopics.calc.earned += 1;
+                    subtopics.calc.max += 1;
+                }
+            });
+
+            const totalMaxMarks = questions.length;
+            const percentage = Math.round((totalMarksEarned / totalMaxMarks) * 100);
+            const performanceDetails = mapPercentageToGrade(percentage);
+
+            const timeDiffSecs = Math.round((examEndTime - examStartTime) / 1000);
+            const minutesTaken = Math.floor(timeDiffSecs / 60);
+            const secondsTaken = timeDiffSecs % 60;
+            const timeTakenStr = `${minutesTaken}m ${secondsTaken}s`;
+
+            // Display results details
+            document.getElementById("final-marks-display").textContent = `${totalMarksEarned}/${totalMaxMarks}`;
+            document.getElementById("final-percentage-display").textContent = `${percentage}%`;
+            
+            const gradeBadge = document.getElementById("grade-badge");
+            gradeBadge.textContent = `GRADE ${performanceDetails.grade}`;
+            gradeBadge.className = `px-5 py-1.5 bg-gradient-to-r ${performanceDetails.badgeClass} text-white font-black text-xl rounded-xl shadow-md flex items-center justify-center min-w-[100px] tracking-wide border`;
+
+            document.getElementById("cert-exam-date").textContent = new Date().toLocaleDateString('en-GB', {
+                day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+
+            document.getElementById("stat-correct-count").textContent = `${questionsCorrectCount} / ${questions.length}`;
+            document.getElementById("stat-time-taken").textContent = timeTakenStr;
+
+            const noncalcPct = subtopics.noncalc.max > 0 ? Math.round((subtopics.noncalc.earned / subtopics.noncalc.max) * 100) : 0;
+            const calcPct = subtopics.calc.max > 0 ? Math.round((subtopics.calc.earned / subtopics.calc.max) * 100) : 0;
+            document.getElementById("stat-sub-noncalc").textContent = `${noncalcPct}%`;
+            document.getElementById("stat-sub-calc").textContent = `${calcPct}%`;
+
+            // Compile qualitative feedback
+            compileExaminerReport(percentage, performanceDetails.grade, subtopics);
+
+            // Hide action submit bar and swap interface configurations
+            submitActionBanner.classList.add("hidden");
+            resultsScreen.classList.remove("hidden");
+
+            // Redraw options inside the inline questions list to show correct/incorrect markers and worked solutions
+            questions.forEach((_, idx) => {
+                renderQuestionOptions(idx);
+                document.getElementById(`worked-solution-${idx}`).classList.remove("hidden");
+            });
+
+            // Adjust navigation grid visual items
+            updateNavigatorStylesForResults();
+
+            // Trigger MathJax re-typesetting for final solutions view
+            triggerMathTypeset();
+
+            // Auto scroll to results overview card smoothly
+            resultsScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function compileExaminerReport(percentage, grade, subtopics) {
+            const summaryTextElement = document.getElementById("examiner-summary-text");
+            const strengthsList = document.getElementById("examiner-strengths-list");
+            const improvementsList = document.getElementById("examiner-improvements-list");
+
+            strengthsList.innerHTML = "";
+            improvementsList.innerHTML = "";
+
+            let summary = "";
+            let strengths = [];
+            let improvements = [];
+
+            if (grade === "9") {
+                summary = `Outstanding mathematical performance! Scoring ${percentage}% demonstrates top-tier mastery of compound measures, unit conversions (m/s to km/h, g/cm³ to kg/m³), multi-stage speeds, and complex rates of flow.`;
+            } else if (["8", "7"].includes(grade)) {
+                summary = `Excellent result! Achieving Grade ${grade} shows strong competence in speed, density, and pressure formulas, as well as volumetric flow rate calculations.`;
+            } else if (["6", "5"].includes(grade)) {
+                summary = `A solid performance! Scoring Grade ${grade} confirms a good grasp of basic compound measure formulas. Focus on multi-stage average speeds and unit conversion multipliers for higher marks.`;
+            } else if (grade === "4") {
+                summary = `You achieved a Grade 4 pass! You demonstrated capability with basic speed and density calculations, but compound unit conversions and multi-pipe flow rates need more practice.`;
+            } else if (["3", "2", "1"].includes(grade)) {
+                summary = `Your score indicates key misconceptions when converting time (minutes to decimal hours) or manipulating force and area for pressure calculations.`;
+            } else {
+                summary = `You found this assessment challenging. Compound measures are essential for GCSE Higher maths. Practice using formula triangles and converting units step-by-step.`;
+            }
+
+            const noncalcPct = subtopics.noncalc.max > 0 ? (subtopics.noncalc.earned / subtopics.noncalc.max) * 100 : 0;
+            const calcPct = subtopics.calc.max > 0 ? (subtopics.calc.earned / subtopics.calc.max) * 100 : 0;
+
+            if (noncalcPct >= 60) {
+                strengths.push("<strong>Non-Calculator Fluency:</strong> Strong mental arithmetic when calculating speed, density of composite alloys, and pressure without a calculator.");
+            }
+            if (calcPct >= 75) {
+                strengths.push("<strong>Complex Flow & Multi-Stage Problems:</strong> Excellent execution when solving circular pipe flow rates, multi-stage journeys with stops, and differential filling/draining rates.");
+            }
+            if (noncalcPct === 100 && calcPct === 100) {
+                strengths.push("<strong>Flawless Compound Computations:</strong> 100% accuracy across all speed, density, pressure, and rate of flow questions.");
+            }
+
+            if (strengths.length === 0) {
+                strengths.push("<strong>Time Management:</strong> Completed the test within the allocated 15-minute timer window. Practicing formula triangles will build problem-solving speed.");
+            }
+
+            if (noncalcPct < 60) {
+                improvements.push("<strong>Time Unit Conversions:</strong> Always convert minutes to hours by dividing by 60 before calculating speed in km/h (e.g., 36 mins = 0.6 hours).");
+            }
+            if (calcPct < 75) {
+                improvements.push("<strong>Volumetric Unit Conversions:</strong> Remember that 1 m³ = 1000 litres and 1 g/cm³ = 1000 kg/m³ when converting compound units.");
+            }
+            if (percentage < 60) {
+                improvements.push("<strong>Composite Measure Formulas:</strong> Pay close attention to total mass / total volume for alloy density, and total distance / total time for overall journey speed.");
+            }
+
+            if (improvements.length === 0) {
+                improvements.push("<strong>Peak Exam Readiness:</strong> No notable weaknesses identified! Continue practicing multi-step real-world flow rate problems to maintain Grade 9 performance.");
+            }
+
+            summaryTextElement.innerHTML = summary;
+            strengths.forEach(s => {
+                const li = document.createElement("li");
+                li.innerHTML = s;
+                strengthsList.appendChild(li);
+            });
+            improvements.forEach(i => {
+                const li = document.createElement("li");
+                li.innerHTML = i;
+                improvementsList.appendChild(li);
+            });
+
+            triggerMathTypeset();
+        }
+
+        function updateNavigatorStylesForResults() {
+            questions.forEach((q, idx) => {
+                const btn = document.getElementById(`nav-btn-${idx}`);
+                if (!btn) return;
+
+                const ans = answers[idx];
+                const isCorrect = ans === q.correct;
+
+                let btnClass = "w-full py-2 rounded-xl font-extrabold text-[10px] transition-all border flex flex-col items-center justify-center gap-0.5 ";
+
+                if (isCorrect) {
+                    btnClass += "bg-emerald-500 border-emerald-600 text-white";
+                    btn.innerHTML = `<span>Q${q.id}</span><span class="text-[8px] font-bold"><i class="fa-solid fa-check"></i> Correct</span>`;
+                } else {
+                    btnClass += "bg-red-500 border-red-600 text-white";
+                    btn.innerHTML = `<span>Q${q.id}</span><span class="text-[8px] font-bold"><i class="fa-solid fa-xmark"></i> Wrong</span>`;
+                }
+
+                btn.className = btnClass;
+            });
+        }
+
+        // Submit Modal Listeners
+        submitExamBtn.addEventListener("click", () => {
+            const answeredCount = answers.filter(a => a !== null).length;
+            const modalMessage = document.getElementById("modal-message");
+            if (answeredCount < questions.length) {
+                modalMessage.textContent = `You have only answered ${answeredCount} out of 10 questions. Are you sure you want to finalize your exam now?`;
+            } else {
+                modalMessage.textContent = "You have answered all 10 questions! Submitting now will finalize your grade according to GCSE boundaries.";
+            }
+            confirmationModal.classList.remove("hidden");
+        });
+
+        modalCancelBtn.addEventListener("click", () => {
+            confirmationModal.classList.add("hidden");
+        });
+
+        modalConfirmBtn.addEventListener("click", () => {
+            confirmationModal.classList.add("hidden");
+            calculateGradesAndDisplay();
+        });
+
+        // Toggle Grade Boundaries Panel
+        toggleBoundariesBtn.addEventListener("click", () => {
+            boundariesTable.classList.toggle("hidden");
+            boundariesIcon.classList.toggle("rotate-180");
+        });
+
+        // Retake Examination Logic
+        retakeTestBtn.addEventListener("click", () => {
+            answers = Array(questions.length).fill(null);
+            flaggedQuestions = Array(questions.length).fill(false);
+            timeRemaining = 900;
+            hasSubmitted = false;
+
+            resultsScreen.classList.add("hidden");
+            submitActionBanner.classList.remove("hidden");
+
+            timerBox.className = "flex items-center space-x-2 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 transition-all duration-300";
+            timerText.className = "font-mono font-bold text-sm md:text-lg text-teal-400";
+            timerIcon.className = "fa-regular fa-clock text-teal-400 text-sm md:text-lg";
+
+            examStartTime = new Date();
+            initializeNavigator();
+            renderAllQuestions();
+            startCountdown();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            examStartTime = new Date();
+            initializeNavigator();
+            renderAllQuestions();
+            startCountdown();
+            triggerMathTypeset();
+        };
+    </script>
+</body>
+</html>
